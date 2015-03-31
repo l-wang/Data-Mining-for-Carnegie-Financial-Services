@@ -5,6 +5,7 @@
  */
 package Input;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -23,12 +24,13 @@ public class DealWithInputData {
 	/**
 	 * Constructor for the
 	 * @param fileName: file name of input data file
+	 * @throws IOException 
 	 */
-	public DealWithInputData(String fileName) {
+	public DealWithInputData(String fileName) throws IOException {
 		attributeSet = new ArrayList<Attribute>();
 		instanceSet = new ArrayList<Instance>();
 		
-		Scanner in = new Scanner(fileName);
+		Scanner in = new Scanner(new File(fileName));
 		
 		// Pass the first two line of input data.
 		if (!in.hasNextLine()) throw new IOException("Invalid input format");
@@ -36,30 +38,33 @@ public class DealWithInputData {
 		if (!in.hasNextLine()) throw new IOException("Invalid input format");
 		in.nextLine();
 		
+		String line = in.nextLine();
 		// Put all attributes into attributeSet
-		while (!in.nextLine().equals("\n")) {
-			String line = in.nextLine();
-			
+		while (!line.equals("")) {
+						
 			// lineArr should have three elements. 
 			// lineArr[1] is attribute name; lineArr[2] is attribute value
-			String[] lineArr = line.split(" ");
+			String[] lineArr = line.split("\\s+");
+			
 			if (lineArr.length != 3) throw new IOException("Invalid input format");
 			Attribute attr = new Attribute(lineArr[1], lineArr[2]);
 			attributeSet.add(attr);
+			line = in.nextLine();
 		}
 		
-		// Pass the next line
+		// Pass the next two line
 		if (!in.hasNextLine()) throw new IOException("Invalid input format");
-		in.nextLine();
+		line = in.nextLine();
 		
 		// Put all instances into instanceSet
-		while (in.hasNextLine() && !in.nextLine().equals("\n")) {
-			String line = in.nextLine();
+		while (in.hasNextLine()) {
+			line = in.nextLine();
 			String[] lineArr = line.split(",");
+			Instance item = new Instance();
 			for (int i = 0; i < lineArr.length; i++) {
-				Instance inst = new Instance(attributeSet.get(i).getName(), lineArr[i]);
-				instanceSet.add(inst);
-			}			
+				item.addAttribute(attributeSet.get(i).getName(), lineArr[i]);
+			}		
+			instanceSet.add(item);			
 		}
 	}
 	
@@ -70,7 +75,16 @@ public class DealWithInputData {
 		return instanceSet;
 	}
 	
-	public static void main(String[] args) {
-		
+	// unit test
+	public static void main(String[] args) throws IOException {
+		DealWithInputData test = new DealWithInputData("testProdIntro.binary.txt");
+		ArrayList<Attribute> attributes = test.getAttributeSet();
+		ArrayList<Instance> instances = test.getInstanceSet();
+		for (Attribute item : attributes) {
+			System.out.println(item);
+		}		
+		for (Instance item : instances) {
+			System.out.println(item);
+		}		
 	}
 }

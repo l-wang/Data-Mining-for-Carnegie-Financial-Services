@@ -27,9 +27,9 @@ public class Attribute {
 		
 		// Initialize pattern
 		if (values.equals("real")) {
-			type = "discrete";
-		} else {
 			type = "continuous";
+		} else {
+			type = "discrete";
 		}
 		
 		// Initialize values		
@@ -54,8 +54,8 @@ public class Attribute {
 	}
 	
 	public String toString() {
-		return "Attribute Name: " + name + "\nAttribute Type: " + type +
-				"\n" + "Attribute Values: " + values;
+		return "@Attribute Name: " + name + "; @Attribute Type: " + type +
+				 "; @Attribute Values: " + values;
 	}
 	
 	private ArrayList<String> constructValues(String s) throws IOException {

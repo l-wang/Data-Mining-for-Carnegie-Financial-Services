@@ -8,21 +8,33 @@ package DataDefination;
 import java.util.HashMap;
 
 public class Instance {
-	private static int instanceCount = 0;
-	private int instanceIndex;
+	private static int count = 0;
+	private int index;
 	private HashMap<String, String> attributeValuePairs;
 	public Instance() {
-		instanceIndex = instanceCount;
+		index = count;
 		attributeValuePairs = new HashMap<String, String>();
-		instanceCount++;
+		count++;
 	}
 	public void addAttribute(String name, String value) {
 		attributeValuePairs.put(name, value);
 	}
 	public int getInstanceIndex() {
-		return instanceIndex;
+		return index;
 	}
 	public String toString() {
-		
+		return "@Instance Index: " + index + "; " 
+				+ "@Instance Attribute Value Pairs: " + attributeValuePairs;
+	}
+	
+	public static void main(String[] args) {
+		Instance test = new Instance();
+		test.addAttribute("Service_type", "Fund");
+		test.addAttribute("Servi", "Fund");
+		System.out.println(test);
+		Instance test2 = new Instance();
+		test2.addAttribute("Service_type", "Fund");
+		test2.addAttribute("Servi", "Fund");
+		System.out.println(test2);
 	}
 }
