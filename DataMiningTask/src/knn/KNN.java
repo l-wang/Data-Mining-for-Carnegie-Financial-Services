@@ -92,12 +92,12 @@ public class KNN {
 	private double calDistance(DataEntry d1, DataEntry d2, double[] weights) {
 		// add weight later
 		double distance = 0;
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < d1.getSymbolicAttributes().length; i++) {
 			if (!d1.getSymbolicAttributes()[i].equals(d2.getSymbolicAttributes()[i])) {
 				distance += 1 * weights[i];
 			}
 		}
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < d1.getNumericAttributes().length; i++) {
 			double diff = d1.getNumericAttributes()[i] - d2.getNumericAttributes()[i];
 			distance += Math.pow(diff, 2) * weights[i];
 		}

@@ -68,7 +68,7 @@ public class KNNDriver {
 	}
 	
 	private static void scaleNumericAttributes(ArrayList<DataEntry> data) {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < data.get(0).getNumericAttributes().length; i++) {
 			// find max and min
 			double max = data.get(0).getNumericAttributes()[i];
 			double min = max;
