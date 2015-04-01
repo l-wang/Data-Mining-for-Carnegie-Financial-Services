@@ -13,7 +13,7 @@ import DataDefination.Attribute;
 import DataDefination.Instance;
 import ProcessInput.ProcessInputData;
 
-public class CalculateEntropy {
+public class Entropy {
 	
 	public static double calculate(Attribute target, ArrayList<Instance> instances) throws IOException {
 		ArrayList<String> valuesOfTarget = target.getValues();
@@ -90,12 +90,12 @@ public class CalculateEntropy {
 		for (Instance item : instances) {
 			System.out.println(item);
 		}		
-		double res = CalculateEntropy.calculate(attributes.get(attributes.size() - 1), instances);
+		double res = Entropy.calculate(attributes.get(attributes.size() - 1), instances);
 		System.out.println(res);
-		double res2 = CalculateEntropy.calculateConti(attributes.get(attributes.size() - 1), 
+		double res2 = Entropy.calculateConti(attributes.get(attributes.size() - 1), 
 				instances, 0, 50);
 		System.out.println(res2);
-		double res3 = CalculateEntropy.calculateConti(attributes.get(attributes.size() - 1), 
+		double res3 = Entropy.calculateConti(attributes.get(attributes.size() - 1), 
 				instances, 51, 185);
 		System.out.println(res3);
 	}

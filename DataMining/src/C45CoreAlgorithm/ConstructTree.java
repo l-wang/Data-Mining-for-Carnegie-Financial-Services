@@ -15,13 +15,13 @@ import TreeDefination.TreeNode;
 import DataDefination.Instance;
 import DataDefination.Attribute;
 
-public class C45ConstructTree {
+public class ConstructTree {
 	private ArrayList<Attribute> attributes;
 	private ArrayList<Instance> instances;
 	
 	private int height = 0;
 	
-	public C45ConstructTree(String fileName) throws IOException {
+	public ConstructTree(String fileName) throws IOException {
 		ProcessInputData input = new ProcessInputData(fileName);
 		attributes = input.getAttributeSet();
 		instances = input.getInstanceSet();

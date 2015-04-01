@@ -13,11 +13,11 @@ import java.util.HashMap;
 import DataDefination.*;
 import ProcessInput.ProcessInputData;
 
-public class ContigiousToDiscrete {
+public class ProcessContigious {
 	private double threshold;
 	private double infoGain;
 	
-	public ContigiousToDiscrete(Attribute attribute, Attribute target, 
+	public ProcessContigious(Attribute attribute, Attribute target, 
 			ArrayList<Instance> instances) throws IOException {
 		String attributeName = attribute.getName();
 		
@@ -46,7 +46,7 @@ public class ContigiousToDiscrete {
 			
 			// not sure accuracy
 			if (!instanceValue.equals(instanceValue2)) {
-				double itemInfoGain = CalculateInformationGain.calculateConti(attribute,
+				double itemInfoGain = InformationGain.calculateConti(attribute,
 						target, instances, i);
 				if (itemInfoGain > infoGain) {
 					infoGain = itemInfoGain;
@@ -79,7 +79,7 @@ public class ContigiousToDiscrete {
 			System.out.println(item);
 		}		
 		
-		ContigiousToDiscrete test2 = new ContigiousToDiscrete(attributes.get(5), 
+		ProcessContigious test2 = new ProcessContigious(attributes.get(5), 
 				attributes.get(attributes.size() - 1), instances);
 		double res = test2.getInfoGain();
 		System.out.println(res);

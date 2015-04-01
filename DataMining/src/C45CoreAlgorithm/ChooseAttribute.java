@@ -22,10 +22,10 @@ public class ChooseAttribute {
 		for (Attribute attr : attributes) {
 			double attrInfoGain = 0;
 			if (attr.getType().equals("continuous")) {
-				ContigiousToDiscrete contigous = new ContigiousToDiscrete(attr, target, instances);
+				ProcessContigious contigous = new ProcessContigious(attr, target, instances);
 				attrInfoGain = contigous.getInfoGain();
 			}
-			else attrInfoGain = CalculateInformationGain.calculate(target, attr, instances);
+			else attrInfoGain = InformationGain.calculate(target, attr, instances);
 			if (attrInfoGain < maxInfoGain) {
 				maxInfoGain = attrInfoGain;
 				chosen = attr;
