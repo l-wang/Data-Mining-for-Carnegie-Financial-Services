@@ -26,7 +26,7 @@ public class CalculateEntropy {
 					countValueOfTarget.get(valueOfInstanceAtTarget) + 1);
 		}
 		int totalN = instances.size();
-		double res = 0;
+		double entropy = 0;
 		
 		//System.out.println(countValueOfTarget);
 		
@@ -36,9 +36,9 @@ public class CalculateEntropy {
 			if (countSingleValue == totalN) return 0;
 			double pValue = ((double) countSingleValue) / ((double)totalN);
 			double itemRes = -pValue * (Math.log(pValue));
-			res += itemRes;
+			entropy += itemRes;
 		}
-		return res;
+		return entropy;
 	}
 	
 	// Unit test
