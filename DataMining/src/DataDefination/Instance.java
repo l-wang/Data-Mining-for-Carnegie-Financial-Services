@@ -22,6 +22,9 @@ public class Instance {
 	public int getInstanceIndex() {
 		return index;
 	}
+	public HashMap<String, String> getAttributeValuePairs() {
+		return attributeValuePairs;
+	}
 	public String toString() {
 		return "@Instance Index: " + index + "; " 
 				+ "@Instance Attribute Value Pairs: " + attributeValuePairs;
