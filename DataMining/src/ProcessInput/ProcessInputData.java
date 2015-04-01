@@ -3,7 +3,7 @@
  * Date: 2015/3/31
  * 
  */
-package Input;
+package ProcessInput;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.Scanner;
 import DataDefination.Attribute;
 import DataDefination.Instance;
 
-public class DealWithInputData {
+public class ProcessInputData {
 	
 	// field attributeSet stores all attributes of input data
 	ArrayList<Attribute> attributeSet;
@@ -26,7 +26,7 @@ public class DealWithInputData {
 	 * @param fileName: file name of input data file
 	 * @throws IOException 
 	 */
-	public DealWithInputData(String fileName) throws IOException {
+	public ProcessInputData(String fileName) throws IOException {
 		attributeSet = new ArrayList<Attribute>();
 		instanceSet = new ArrayList<Instance>();
 		
@@ -77,7 +77,7 @@ public class DealWithInputData {
 	
 	// unit test
 	public static void main(String[] args) throws IOException {
-		DealWithInputData test = new DealWithInputData("testProdIntro.binary.txt");
+		ProcessInputData test = new ProcessInputData("testProdIntro.binary.txt");
 		ArrayList<Attribute> attributes = test.getAttributeSet();
 		ArrayList<Instance> instances = test.getInstanceSet();
 		for (Attribute item : attributes) {
