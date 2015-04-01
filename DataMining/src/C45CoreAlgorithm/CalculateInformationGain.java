@@ -1,4 +1,9 @@
-package Helper;
+/*
+ * Author: Charlotte Lin
+ * Date: 2015/04/01
+ * 
+ */
+package C45CoreAlgorithm;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +46,20 @@ public class CalculateInformationGain {
 		return informationGain;
 	}
 	
+	public static double calculateConti(Attribute attribute, Attribute target, 
+			ArrayList<Instance> instances, int index) throws IOException {
+		int totalN = instances.size();
+		double infoGain = CalculateEntropy.calculate(target, instances);
+		int subL = index + 1;
+		int subR = instances.size() - index - 1;
+		double subResL = ((double) subL) / ((double) totalN) * 
+				CalculateEntropy.calculateConti(target, instances, 0, index);
+		double subResR = ((double) subR) / ((double) totalN) * 
+				CalculateEntropy.calculateConti(target, instances, index + 1, totalN - 1);
+		infoGain -= (subResL + subResR);
+		return infoGain;
+	}
+	
 	// Unit test
 	public static void main(String[] args) throws IOException {
 		ProcessInputData test = new ProcessInputData("trainProdSelection.txt");
@@ -53,8 +72,8 @@ public class CalculateInformationGain {
 			System.out.println(item);
 		}		
 				
-		double res = CalculateInformationGain.calculate(attributes.get(attributes.size() - 1), 
-				attributes.get(0), instances);
+		double res = CalculateInformationGain.calculateConti(attributes.get(3),
+				attributes.get(attributes.size() - 1), instances, 72);
 		System.out.println(res);
 	}
 }

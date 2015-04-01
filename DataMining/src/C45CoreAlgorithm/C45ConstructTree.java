@@ -1,3 +1,8 @@
+/*
+ * Author: Charlotte Lin
+ * Date: 2015/04/01
+ * 
+ */
 package C45CoreAlgorithm;
 
 import java.io.IOException;

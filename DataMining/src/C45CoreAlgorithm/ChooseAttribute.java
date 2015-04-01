@@ -1,4 +1,9 @@
-package Helper;
+/*
+ * Author: Charlotte Lin
+ * Date: 2015/04/01
+ * 
+ */
+package C45CoreAlgorithm;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +20,12 @@ public class ChooseAttribute {
 		double maxInfoGain = CalculateInformationGain.calculate(target, chosen, instances);
 		for (int i = 1; i < attributes.size(); i++) {
 			Attribute attr = attributes.get(i);
-			double attrInfoGain = CalculateInformationGain.calculate(target, attr, instances);
+			double attrInfoGain = 0;
+			if (attr.getType().equals("continuous")) {
+				ContigiousToDiscrete contigous = new ContigiousToDiscrete(attr, target, instances);
+				attrInfoGain = contigous.getInfoGain();
+			}
+			else attrInfoGain = CalculateInformationGain.calculate(target, attr, instances);
 			if (attrInfoGain < maxInfoGain) {
 				maxInfoGain = attrInfoGain;
 				chosen = attr;
