@@ -7,21 +7,20 @@ import C45CoreAlgorithm.ConstructTree;
 import DataDefination.Attribute;
 
 public class TreeNode {
+	private String type;
 	private Attribute attribute;
 	private String branchValue;
 	private HashMap<String, TreeNode> children;
 	private String targetLabel;
 	
-	public TreeNode() {
-		children = new HashMap<String, TreeNode>();
-	}
-	
 	public TreeNode(Attribute attribute) {
+		type = "root";
 		this.attribute = attribute;
 		children = new HashMap<String, TreeNode>();
 	}
 	
 	public TreeNode(String targetLabel) {
+		type = "leaf";
 		this.targetLabel = targetLabel;
 	}
 	public Attribute getAttribute() {
@@ -47,9 +46,14 @@ public class TreeNode {
 		return targetLabel;
 	}
 	
+	public String getType() {
+		return type;
+	}
+	
 	// toString
 	public String toString() {
-		return "Attribute: " + attribute + "\n";
+		if (type.equals("root")) return "Root attribute: " + attribute.getName() + "; Children: " + children;
+		else return "Leaf label: " + targetLabel;
 	}
 	
 	public static void main(String[] args) {

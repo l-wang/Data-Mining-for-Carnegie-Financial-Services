@@ -1,6 +1,7 @@
 package ProcessOutput;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -12,7 +13,30 @@ public class PrintTree {
 	private int nodeN;
 	private String pic;
 	
-	public PrintTree(TreeNode root) {
+	public ArrayList<String> printDFS(TreeNode root) {
+		ArrayList<String> res = new ArrayList<String>();
+		printDFS(root, new StringBuilder(), res);
+		return res;
+	}
+	
+	private void printDFS(TreeNode root, StringBuilder sb, ArrayList<String> res) {
+		if (root.getType().equals("leaf")) {
+			StringBuilder curr = new StringBuilder(sb);
+			curr.append(root.getTargetLabel());
+			curr.append("\n");
+			res.add(curr.toString());
+		} else {
+			String curr = sb.toString();
+			curr += root.getAttribute().getName();
+			HashMap<String, TreeNode> children = root.getChildren();
+			for (String valueName : children.keySet()) {
+				curr += valueName;
+				printDFS(children.get(valueName), new StringBuilder(curr), res);
+			}
+		}	
+	}
+	
+	public String printBFS(TreeNode root) {
 		StringBuilder sb = new StringBuilder();
 		
 		// Level order traversal
@@ -23,17 +47,19 @@ public class PrintTree {
 		int nextN = 0;
 		while (!queue.isEmpty()) {
 			TreeNode node = queue.poll();
-//			System.out.println(node.getAttribute());
 			currN--;
-			if (node.getAttribute() != null) sb.append(node.getAttribute().getName());
-			sb.append("||");
+			if (node.getType().equals("root")) sb.append(node.getAttribute().getName());
+			else sb.append(node.getTargetLabel());
 			HashMap<String, TreeNode> children = node.getChildren();
 			if (children != null) {
+				//sb.append("\n");
+				sb.append("(");
 				for (String valueName : children.keySet()) {
 					sb.append(valueName);
 					queue.offer(children.get(valueName));
 					nextN++;
 				}
+				sb.append(")");
 			}
 			if (currN == 0) {
 				currN = nextN;
@@ -42,7 +68,7 @@ public class PrintTree {
 				sb.append("\n");
 			}
 		}
-		pic = sb.toString();
+		return sb.toString();
 	}
 	
 	public String toSting() {
@@ -51,8 +77,10 @@ public class PrintTree {
 	public static void main(String[] args) throws IOException {
 		ConstructTree test = new ConstructTree("trainProdSelection.txt");
 		
-		PrintTree test2 = new PrintTree(test.construct());
+		PrintTree test2 = new PrintTree();
+		String res1 = test2.printBFS(test.construct());
+		ArrayList<String> res2 = test2.printDFS(test.construct());
 		System.out.println("********************");
-		System.out.println(test2.pic);
+		System.out.println(res2);
 	}
 }

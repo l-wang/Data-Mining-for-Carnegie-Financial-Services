@@ -81,22 +81,17 @@ public class Entropy {
 	
 	// Unit test
 	public static void main(String[] args) throws IOException {
-		ProcessInputData test = new ProcessInputData("trainProdSelection.txt");
+		ProcessInputData test = new ProcessInputData("rain.txt");
 		ArrayList<Attribute> attributes = test.getAttributeSet();
 		ArrayList<Instance> instances = test.getInstanceSet();
+		Attribute target = test.getTargetAttribute();
 		for (Attribute item : attributes) {
 			System.out.println(item);
 		}		
 		for (Instance item : instances) {
 			System.out.println(item);
 		}		
-		double res = Entropy.calculate(attributes.get(attributes.size() - 1), instances);
+		double res = Entropy.calculate(target, instances);
 		System.out.println(res);
-		double res2 = Entropy.calculateConti(attributes.get(attributes.size() - 1), 
-				instances, 0, 50);
-		System.out.println(res2);
-		double res3 = Entropy.calculateConti(attributes.get(attributes.size() - 1), 
-				instances, 51, 185);
-		System.out.println(res3);
 	}
 }

@@ -25,6 +25,7 @@ public class ConstructTree {
 		attributes = input.getAttributeSet();
 		instances = input.getInstanceSet();
 		target = input.getTargetAttribute();
+		System.out.println(instances);
 	}
 	
 	public TreeNode construct() throws IOException {
@@ -35,7 +36,8 @@ public class ConstructTree {
 			ArrayList<Instance> instances) throws IOException {
 		
 		// Stop when (1)
-		// (2)		
+		// (2)
+		System.out.println(Entropy.calculate(target, instances) == 0);
 		if (Entropy.calculate(target, instances) == 0 || attributes.size() == 0) {
 			String leafLabel = "";
 			if (Entropy.calculate(target, instances) == 0) {
@@ -52,10 +54,7 @@ public class ConstructTree {
 		Attribute rootAttr = choose.getChosen();
 		
 		System.out.println(choose);
-		if (choose.getChosen() == null) {
-			System.out.println(attributes);
-			System.out.println(instances);
-		}
+
 		// Remove the chosen attribute from attribute set
 		attributes.remove(rootAttr);
 		
@@ -71,7 +70,7 @@ public class ConstructTree {
 			root.addChild(valueName, child);
 		}
 		
-		// Add???
+		// Add???!!!
 		attributes.add(rootAttr);
 		
 		return root;
@@ -106,7 +105,7 @@ public class ConstructTree {
 	
 	// Unit test
 	public static void main(String[] args) throws IOException {
-		ConstructTree test = new ConstructTree("trainProdSelection.txt");
+		ConstructTree test = new ConstructTree("rain.txt");
 		TreeNode root = test.construct();
 		System.out.println(root);
 	}

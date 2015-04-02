@@ -69,7 +69,7 @@ public class ChooseAttribute {
 	}
 	// Unit test
 	public static void main(String[] args) throws IOException {
-		ProcessInputData test = new ProcessInputData("trainProdSelection.txt");
+		ProcessInputData test = new ProcessInputData("rain.txt");
 		HashSet<Attribute> attributesHash = test.getAttributeHashSet();
 		ArrayList<Attribute> attributes = test.getAttributeSet();
 		Attribute target = test.getTargetAttribute();

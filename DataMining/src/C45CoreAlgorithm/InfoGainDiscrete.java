@@ -30,6 +30,7 @@ public class InfoGainDiscrete {
 		this.attribute = attribute;
 		
 		ArrayList<String> valuesOfAttribute = attribute.getValues();
+		
 		String attributeName = attribute.getName();
 		subset = new HashMap<String, ArrayList<Instance>>();
 		for (String s : valuesOfAttribute) {
@@ -76,18 +77,13 @@ public class InfoGainDiscrete {
 	
 	// Unit test
 	public static void main(String[] args) throws IOException {
-		ProcessInputData test = new ProcessInputData("trainProdSelection.txt");
+		ProcessInputData test = new ProcessInputData("rain.txt");
 		ArrayList<Attribute> attributes = test.getAttributeSet();
 		ArrayList<Instance> instances = test.getInstanceSet();
-		for (Attribute item : attributes) {
-			System.out.println(item);
-		}		
-		for (Instance item : instances) {
-			System.out.println(item);
-		}		
+		Attribute target = test.getTargetAttribute();	
+		System.out.println(target);
 				
-		InfoGainDiscrete test2 = new InfoGainDiscrete(attributes.get(0), 
-				attributes.get(attributes.size() - 1), instances);
+		InfoGainDiscrete test2 = new InfoGainDiscrete(target, attributes.get(0), instances);
 		System.out.println(test2);
 	}
 }

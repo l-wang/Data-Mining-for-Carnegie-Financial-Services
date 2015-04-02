@@ -88,7 +88,7 @@ public class ProcessInputData {
 	}
 	// unit test
 	public static void main(String[] args) throws IOException {
-		ProcessInputData test = new ProcessInputData("trainProdSelection.txt");
+		ProcessInputData test = new ProcessInputData("rain.txt");
 		ArrayList<Attribute> attributes = test.getAttributeSet();
 		ArrayList<Instance> instances = test.getInstanceSet();
 		for (Attribute item : attributes) {
