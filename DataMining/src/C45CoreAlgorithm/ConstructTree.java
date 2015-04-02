@@ -29,16 +29,26 @@ public class ConstructTree {
 	
 	public TreeNode constructTree(Attribute target, ArrayList<Attribute> attributes, 
 			ArrayList<Instance> instances) throws IOException {
-		if (height == 5) {
+		
+		// Stop when (1)
+		// (2)
+		if (attributes.size() == 0) {
 			String leafLabel = getMajorityLabel(target, instances);
 			TreeNode leaf = new TreeNode(leafLabel);
 			return leaf;
 		}
 		
-		ChooseAttribute choose = new ChooseAttribute(target, attributes, instances)
+		// Choose the root attribute
+		ChooseAttribute choose = new ChooseAttribute(target, attributes, instances);
 		Attribute rootAttr = choose.getChosen();
+		
+		// Remove the chosen attribute from attribute set
 		attributes.remove(rootAttr);
+		
+		// Make a new root
 		TreeNode root = new TreeNode(rootAttr);
+		
+		// Get value subsets of the root attribute to construct branches
 		HashMap<String, ArrayList<Instance>> valueSubsets = choose.getSubset();
 		for (String valueName : valueSubsets.keySet()) {
 			ArrayList<Instance> subset = valueSubsets.get(valueName);
