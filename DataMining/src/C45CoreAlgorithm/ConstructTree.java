@@ -18,22 +18,31 @@ import DataDefination.Attribute;
 public class ConstructTree {
 	private ArrayList<Attribute> attributes;
 	private ArrayList<Instance> instances;
-	
-	private int height = 0;
+	private Attribute target;
 	
 	public ConstructTree(String fileName) throws IOException {
 		ProcessInputData input = new ProcessInputData(fileName);
 		attributes = input.getAttributeSet();
 		instances = input.getInstanceSet();
+		target = input.getTargetAttribute();
 	}
 	
-	public TreeNode constructTree(Attribute target, ArrayList<Attribute> attributes, 
+	public TreeNode construct() throws IOException {
+		return constructTree(target, attributes, instances);
+	}
+	
+	private TreeNode constructTree(Attribute target, ArrayList<Attribute> attributes, 
 			ArrayList<Instance> instances) throws IOException {
 		
 		// Stop when (1)
-		// (2)
-		if (attributes.size() == 0) {
-			String leafLabel = getMajorityLabel(target, instances);
+		// (2)		
+		if (Entropy.calculate(target, instances) == 0 || attributes.size() == 0) {
+			String leafLabel = "";
+			if (Entropy.calculate(target, instances) == 0) {
+				leafLabel = instances.get(0).getAttributeValuePairs().get(target.getName());
+			} else {
+				leafLabel = getMajorityLabel(target, instances);
+			}
 			TreeNode leaf = new TreeNode(leafLabel);
 			return leaf;
 		}
@@ -42,6 +51,11 @@ public class ConstructTree {
 		ChooseAttribute choose = new ChooseAttribute(target, attributes, instances);
 		Attribute rootAttr = choose.getChosen();
 		
+		System.out.println(choose);
+		if (choose.getChosen() == null) {
+			System.out.println(attributes);
+			System.out.println(instances);
+		}
 		// Remove the chosen attribute from attribute set
 		attributes.remove(rootAttr);
 		
@@ -52,9 +66,14 @@ public class ConstructTree {
 		HashMap<String, ArrayList<Instance>> valueSubsets = choose.getSubset();
 		for (String valueName : valueSubsets.keySet()) {
 			ArrayList<Instance> subset = valueSubsets.get(valueName);
+			if (subset.size() == 0) continue;
 			TreeNode child = constructTree(target, attributes, subset);
 			root.addChild(valueName, child);
 		}
+		
+		// Add???
+		attributes.add(rootAttr);
+		
 		return root;
 	}
 	
@@ -86,7 +105,9 @@ public class ConstructTree {
 	}
 	
 	// Unit test
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws IOException {
+		ConstructTree test = new ConstructTree("trainProdSelection.txt");
+		TreeNode root = test.construct();
+		System.out.println(root);
 	}
 }

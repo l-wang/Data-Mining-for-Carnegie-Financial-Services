@@ -47,7 +47,7 @@ public class TreeNode {
 	
 	// toString
 	public String toString() {
-		
+		return "Attribute: " + attribute + "\n";
 	}
 	
 	public static void main(String[] args) {

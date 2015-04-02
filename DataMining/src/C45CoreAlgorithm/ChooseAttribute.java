@@ -28,7 +28,7 @@ public class ChooseAttribute {
 		
 		// Initialize variables
 		chosen = null;
-		infoGain = 0;
+		infoGain = -1;
 		subset = null;
 		
 		// Iterate to find the attribute with the largest information gain
@@ -40,6 +40,7 @@ public class ChooseAttribute {
 				InfoGainContinuous contigous = new InfoGainContinuous(currAttribute, target, instances);
 				currInfoGain = contigous.getInfoGain();
 				currSubset = contigous.getSubset();
+				System.out.println(contigous);
 			} else {
 				InfoGainDiscrete discrete = new InfoGainDiscrete(target, currAttribute, instances);
 				currInfoGain = discrete.getInfoGain();

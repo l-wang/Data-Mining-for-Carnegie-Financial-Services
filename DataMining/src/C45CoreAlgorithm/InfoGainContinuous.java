@@ -21,7 +21,7 @@ public class InfoGainContinuous {
 	// Field subset: the value subset of current attribute
 	private Attribute attribute;
 	private double threshold;
-	private double infoGain;
+	private double infoGain = -1;
 	private HashMap<String, ArrayList<Instance>> subset;
 	
 	public InfoGainContinuous(Attribute attribute, Attribute target, 
@@ -53,7 +53,7 @@ public class InfoGainContinuous {
 		// (3) Get each position that target value change,
 		// 	   then calculate information gain of each position
 		//     find the maximum position value to be the threshold
-		int thresholdPos = -1;
+		int thresholdPos = 0;
 		for (int i = 0; i < instances.size() - 1; i++) {
 			HashMap<String, String> instancePair = instances.get(i).getAttributeValuePairs();
 			String instanceValue = instancePair.get(attributeName);
@@ -62,9 +62,11 @@ public class InfoGainContinuous {
 					
 			// not sure accuracy
 			if (!instanceValue.equals(instanceValue2)) {
-				double currInfoGain = calculateConti(attribute,
-					target, instances, i);
-				if (currInfoGain > infoGain) {
+				double currInfoGain = calculateConti(attribute, target, instances, i);
+				System.out.println(currInfoGain);
+				System.out.println(infoGain);
+				System.out.println(currInfoGain - infoGain > 0.0000000001);
+				if (currInfoGain - infoGain > 0) {
 					infoGain = currInfoGain;
 					thresholdPos = i;
 				}
@@ -125,7 +127,7 @@ public class InfoGainContinuous {
 	}
 	
 	public String toString() {
-		return "Attribute: " + attribute + "\n" + "Threshold: " + threshold + "\n" 
+		return "Attribute: " + attribute.getName() + "\n" + "Threshold: " + threshold + "\n" 
 				+ "InfoGain: " + infoGain + "\n" + "Subset: " + subset;
 	}
 	
@@ -137,7 +139,7 @@ public class InfoGainContinuous {
 		for (Attribute item : attributes) {
 			System.out.println(item);
 		}				
-		InfoGainContinuous test2 = new InfoGainContinuous(attributes.get(2), target, instances);
+		InfoGainContinuous test2 = new InfoGainContinuous(attributes.get(4), target, instances);
 		System.out.println(test2);
 	}
 	
