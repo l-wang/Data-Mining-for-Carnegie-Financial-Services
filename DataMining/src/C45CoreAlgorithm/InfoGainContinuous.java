@@ -63,9 +63,8 @@ public class InfoGainContinuous {
 			// not sure accuracy
 			if (!instanceValue.equals(instanceValue2)) {
 				double currInfoGain = calculateConti(attribute, target, instances, i);
-				System.out.println(currInfoGain);
-				System.out.println(infoGain);
-				System.out.println(currInfoGain - infoGain > 0.0000000001);
+				//System.out.println(currInfoGain);
+				//System.out.println(infoGain);
 				if (currInfoGain - infoGain > 0) {
 					infoGain = currInfoGain;
 					thresholdPos = i;

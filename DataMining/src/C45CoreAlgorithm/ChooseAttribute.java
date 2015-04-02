@@ -22,6 +22,7 @@ public class ChooseAttribute {
 	private Attribute chosen;
 	private HashMap<String, ArrayList<Instance>> subset;
 	private double infoGain;
+	private double threshold;
 	
 	public ChooseAttribute(Attribute target, ArrayList<Attribute> attributes, 
 			ArrayList<Instance> instances) throws IOException {
@@ -40,7 +41,8 @@ public class ChooseAttribute {
 				InfoGainContinuous contigous = new InfoGainContinuous(currAttribute, target, instances);
 				currInfoGain = contigous.getInfoGain();
 				currSubset = contigous.getSubset();
-				System.out.println(contigous);
+				threshold = contigous.getThreshold();
+				//System.out.println(contigous);
 			} else {
 				InfoGainDiscrete discrete = new InfoGainDiscrete(target, currAttribute, instances);
 				currInfoGain = discrete.getInfoGain();
@@ -61,6 +63,9 @@ public class ChooseAttribute {
 	}
 	public HashMap<String, ArrayList<Instance>> getSubset() {
 		return subset;
+	}
+	public double getThreshold() {
+		return threshold;
 	}
 	
 	public String toString() {

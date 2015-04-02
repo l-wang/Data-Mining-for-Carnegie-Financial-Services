@@ -26,12 +26,14 @@ public class PrintTree {
 			curr.append("\n");
 			res.add(curr.toString());
 		} else {
-			String curr = sb.toString();
-			curr += root.getAttribute().getName();
+			sb.append(root.getAttribute().getName());
 			HashMap<String, TreeNode> children = root.getChildren();
 			for (String valueName : children.keySet()) {
-				curr += valueName;
-				printDFS(children.get(valueName), new StringBuilder(curr), res);
+				StringBuilder curr = new StringBuilder(sb);
+				curr.append("(");
+				curr.append(valueName);
+				curr.append(")");
+				printDFS(children.get(valueName), curr, res);
 			}
 		}	
 	}
@@ -76,9 +78,8 @@ public class PrintTree {
 	}
 	public static void main(String[] args) throws IOException {
 		ConstructTree test = new ConstructTree("trainProdSelection.txt");
-		
 		PrintTree test2 = new PrintTree();
-		String res1 = test2.printBFS(test.construct());
+		//String res1 = test2.printBFS(test.construct());
 		ArrayList<String> res2 = test2.printDFS(test.construct());
 		System.out.println("********************");
 		System.out.println(res2);
