@@ -27,7 +27,7 @@ public class ConstructTree {
 		instances = input.getInstanceSet();
 	}
 	
-	public TreeNode constructTree(Attribute target, HashSet<Attribute> attributes, 
+	public TreeNode constructTree(Attribute target, ArrayList<Attribute> attributes, 
 			ArrayList<Instance> instances) throws IOException {
 		if (height == 5) {
 			String leafLabel = getMajorityLabel(target, instances);
@@ -35,35 +35,17 @@ public class ConstructTree {
 			return leaf;
 		}
 		
-		Attribute rootAttr = ChooseAttribute.choose(target, attributes, instances);
+		ChooseAttribute choose = new ChooseAttribute(target, attributes, instances)
+		Attribute rootAttr = choose.getChosen();
 		attributes.remove(rootAttr);
 		TreeNode root = new TreeNode(rootAttr);
-		HashMap<String, ArrayList<Instance>> valueSubsets = getValueSubset(rootAttr);
+		HashMap<String, ArrayList<Instance>> valueSubsets = choose.getSubset();
 		for (String valueName : valueSubsets.keySet()) {
 			ArrayList<Instance> subset = valueSubsets.get(valueName);
 			TreeNode child = constructTree(target, attributes, subset);
 			root.addChild(valueName, child);
 		}
 		return root;
-	}
-	
-	private HashMap<String, ArrayList<Instance>> getValueSubset(Attribute attribute) 
-			throws IOException {
-		ArrayList<String> valuesOfAttribute = attribute.getValues();
-		String attributeName = attribute.getName();
-		HashMap<String, ArrayList<Instance>> instanceSubsets = 
-				new HashMap<String, ArrayList<Instance>>();
-		for (String s : valuesOfAttribute) {
-			instanceSubsets.put(s, new ArrayList<Instance>());
-		}
-		for (Instance instance : instances) {
-			HashMap<String, String> attributeValuePairsOfInstance = instance.getAttributeValuePairs();
-			String valueOfInstanceAtAttribute = attributeValuePairsOfInstance.get(attributeName);
-			if (!instanceSubsets.containsKey(valueOfInstanceAtAttribute)) 
-				throw new IOException("Invalid input data");
-			instanceSubsets.get(valueOfInstanceAtAttribute).add(instance);
-		}
-		return instanceSubsets;
 	}
 	
 	public String getMajorityLabel(Attribute target, ArrayList<Instance> instances) throws IOException {

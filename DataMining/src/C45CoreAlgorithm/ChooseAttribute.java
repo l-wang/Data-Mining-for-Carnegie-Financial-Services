@@ -7,6 +7,7 @@ package C45CoreAlgorithm;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import DataDefination.Attribute;
@@ -15,29 +16,62 @@ import ProcessInput.ProcessInputData;
 
 public class ChooseAttribute {
 	
-	public static Attribute choose(Attribute target, HashSet<Attribute> attributes, 
+	// Field chosen: the attribute with largest information gain
+	// Field subset: the value subsets of the chosen attribute
+	// Field infoGain: the information gain of the chosen attribute
+	private Attribute chosen;
+	private HashMap<String, ArrayList<Instance>> subset;
+	private double infoGain;
+	
+	public ChooseAttribute(Attribute target, ArrayList<Attribute> attributes, 
 			ArrayList<Instance> instances) throws IOException {
-		Attribute chosen = null;
-		double maxInfoGain = 0;
-		for (Attribute attr : attributes) {
-			double attrInfoGain = 0;
-			if (attr.getType().equals("continuous")) {
-				ProcessContigious contigous = new ProcessContigious(attr, target, instances);
-				attrInfoGain = contigous.getInfoGain();
+		
+		// Initialize variables
+		chosen = null;
+		infoGain = 0;
+		subset = null;
+		
+		// Iterate to find the attribute with the largest information gain
+		for (Attribute currAttribute : attributes) {
+			double currInfoGain = 0;
+			HashMap<String, ArrayList<Instance>> currSubset = null;
+			
+			if (currAttribute.getType().equals("continuous")) {
+				InfoGainContinuous contigous = new InfoGainContinuous(currAttribute, target, instances);
+				currInfoGain = contigous.getInfoGain();
+				currSubset = contigous.getSubset();
+			} else {
+				InfoGainDiscrete discrete = new InfoGainDiscrete(target, currAttribute, instances);
+				currInfoGain = discrete.getInfoGain();
+				currSubset = discrete.getSubset();
 			}
-			else attrInfoGain = InformationGain.calculate(target, attr, instances);
-			if (attrInfoGain < maxInfoGain) {
-				maxInfoGain = attrInfoGain;
-				chosen = attr;
+			if (currInfoGain > infoGain) {
+				infoGain = currInfoGain;
+				chosen = currAttribute;
+				subset = currSubset;
 			}
 		}
-		return chosen;	
+	}
+	public Attribute getChosen() {
+		return chosen;
+	}
+	public double getInfoGain() {
+		return infoGain;
+	}
+	public HashMap<String, ArrayList<Instance>> getSubset() {
+		return subset;
 	}
 	
+	public String toString() {
+		return "Chosen attribute: " + chosen + "\n" + "InfoGain: " + infoGain + "\n"
+				+ "Subset: " + subset;
+	}
 	// Unit test
 	public static void main(String[] args) throws IOException {
 		ProcessInputData test = new ProcessInputData("trainProdSelection.txt");
+		HashSet<Attribute> attributesHash = test.getAttributeHashSet();
 		ArrayList<Attribute> attributes = test.getAttributeSet();
+		Attribute target = test.getTargetAttribute();
 		ArrayList<Instance> instances = test.getInstanceSet();
 		for (Attribute item : attributes) {
 			System.out.println(item);
@@ -45,8 +79,7 @@ public class ChooseAttribute {
 		for (Instance item : instances) {
 			System.out.println(item);
 		}		
-//		Attribute res = ChooseAttribute.choose(attributes.get(attributes.size() - 1), 
-//				attributes, instances);		
-//		System.out.println(res);
+		ChooseAttribute test2 = new ChooseAttribute(target, attributes, instances);
+		System.out.println(test2);
 	}
 }
