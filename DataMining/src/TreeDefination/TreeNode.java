@@ -3,6 +3,7 @@ package TreeDefination;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import C45CoreAlgorithm.ConstructTree;
 import DataDefination.Attribute;
 
 public class TreeNode {
@@ -16,6 +17,7 @@ public class TreeNode {
 	}
 	
 	public TreeNode(Attribute attribute) {
+		this.attribute = attribute;
 		children = new HashMap<String, TreeNode>();
 	}
 	
