@@ -64,11 +64,15 @@ public class ConstructTree {
 		HashMap<String, ArrayList<Instance>> valueSubsets = choose.getSubset();
 		for (String valueName : valueSubsets.keySet()) {
 			ArrayList<Instance> subset = valueSubsets.get(valueName);
-			if (subset.size() == 0) continue;
-			TreeNode child = constructTree(target, attributes, subset);
-			root.addChild(valueName, child);
-		}
-		
+			if (subset.size() == 0) {
+				String leafLabel = getMajorityLabel(target, instances);
+				TreeNode leaf = new TreeNode(leafLabel);
+				root.addChild(valueName, leaf);
+			} else {
+				TreeNode child = constructTree(target, attributes, subset);
+				root.addChild(valueName, child);
+			}			
+		}		
 		// Add???!!!
 		attributes.add(rootAttr);
 		

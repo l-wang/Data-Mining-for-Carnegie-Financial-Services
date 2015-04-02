@@ -77,7 +77,7 @@ public class PrintTree {
 		return pic;
 	}
 	public static void main(String[] args) throws IOException {
-		ConstructTree test = new ConstructTree("trainProdSelection.txt");
+		ConstructTree test = new ConstructTree("rain.txt");
 		PrintTree test2 = new PrintTree();
 		//String res1 = test2.printBFS(test.construct());
 		ArrayList<String> res2 = test2.printDFS(test.construct());
