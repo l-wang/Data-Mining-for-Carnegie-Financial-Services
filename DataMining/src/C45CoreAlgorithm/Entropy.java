@@ -25,8 +25,9 @@ public class Entropy {
 		for (Instance instance : instances) {
 			HashMap<String, String> attributeValuePairsOfInstance = instance.getAttributeValuePairs();
 			String valueOfInstanceAtTarget = attributeValuePairsOfInstance.get(targetName);
-			if (!countValueOfTarget.containsKey(valueOfInstanceAtTarget)) 
+			if (!countValueOfTarget.containsKey(valueOfInstanceAtTarget)) {
 				throw new IOException("Invalid input data");
+			}
 			countValueOfTarget.put(valueOfInstanceAtTarget, 
 					countValueOfTarget.get(valueOfInstanceAtTarget) + 1);
 		}
@@ -80,18 +81,18 @@ public class Entropy {
 	}
 	
 	// Unit test
-	public static void main(String[] args) throws IOException {
-		ProcessInputData test = new ProcessInputData("rain.txt");
-		ArrayList<Attribute> attributes = test.getAttributeSet();
-		ArrayList<Instance> instances = test.getInstanceSet();
-		Attribute target = test.getTargetAttribute();
-		for (Attribute item : attributes) {
-			System.out.println(item);
-		}		
-		for (Instance item : instances) {
-			System.out.println(item);
-		}		
-		double res = Entropy.calculate(target, instances);
-		System.out.println(res);
-	}
+//	public static void main(String[] args) throws IOException {
+//		ProcessInputData test = new ProcessInputData("rain.txt");
+//		ArrayList<Attribute> attributes = test.getAttributeSet();
+//		ArrayList<Instance> instances = test.getInstanceSet();
+//		Attribute target = test.getTargetAttribute();
+//		for (Attribute item : attributes) {
+//			System.out.println(item);
+//		}		
+//		for (Instance item : instances) {
+//			System.out.println(item);
+//		}		
+//		double res = Entropy.calculate(target, instances);
+//		System.out.println(res);
+//	}
 }

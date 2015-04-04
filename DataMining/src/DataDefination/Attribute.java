@@ -19,7 +19,6 @@ public class Attribute {
 	// Field values: values. If discrete, stores values; if continuous, stores "real"
 	private ArrayList<String> values;
 	
-	
 	public Attribute(String name, String values) throws IOException {
 		
 		// Initialize name

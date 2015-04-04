@@ -7,6 +7,7 @@ package C45CoreAlgorithm;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 
@@ -32,7 +33,7 @@ public class InfoGainContinuous {
 		
 		// Initialize threshold and infoGain
 		// (1) Get the name of the attribute to be calculated
-		String attributeName = attribute.getName();
+		final String attributeName = attribute.getName();
 				
 		// (2) Sort instances according to the attribute
 		Comparator<Instance> comparator = new Comparator<Instance>() {
@@ -48,7 +49,8 @@ public class InfoGainContinuous {
 				else return 0;
 			}
 		};
-		instances.sort(comparator);
+		Collections.sort(instances, comparator);
+		
 				
 		// (3) Get each position that target value change,
 		// 	   then calculate information gain of each position

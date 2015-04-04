@@ -27,6 +27,12 @@ public class ConstructTree {
 		target = input.getTargetAttribute();
 	}
 	
+	public ConstructTree(ArrayList<Instance> instances, ArrayList<Attribute> attributes, Attribute target) {
+		this.instances = instances;
+		this.attributes = attributes;
+		this.target = target;
+	}
+	
 	public TreeNode construct() throws IOException {
 		return constructTree(target, attributes, instances);
 	}

@@ -1,9 +1,6 @@
 package TreeDefination;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-
-import C45CoreAlgorithm.ConstructTree;
 import DataDefination.Attribute;
 
 public class TreeNode {

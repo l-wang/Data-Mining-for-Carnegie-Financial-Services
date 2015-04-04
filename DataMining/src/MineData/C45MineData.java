@@ -77,17 +77,17 @@ public class C45MineData {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		ConstructTree test = new ConstructTree("trainProdIntro.binary.txt");
+		ConstructTree test = new ConstructTree("trainProdIntro.binary.arff");
 		PrintTree test2 = new PrintTree();
-		//String res1 = test2.printBFS(test.construct());
+		String res1 = test2.printBFS(test.construct());
 		ArrayList<String> res2 = test2.printDFS(test.construct());
-		System.out.println("********************");
+//		System.out.println("********************");
 		System.out.println(res2);
 				
-		C45MineData test3 = new C45MineData("trainProdIntro.binary.txt", "testProdIntro.binary.txt");
+		C45MineData test3 = new C45MineData("trainProdIntro.binary.arff", "testProdIntro.binary.arff");
 		ArrayList<Instance> res = test3.getResult();
-		for (Instance item : res) {
-			System.out.println(item);		
-		}
+//		for (Instance item : res) {
+//			System.out.println(item);		
+//		}
 	}
 }
