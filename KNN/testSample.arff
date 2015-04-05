@@ -1,0 +1,12 @@
+@relation financial_service
+
+@attribute Type {student,engineer,librarian,professor,doctor}
+@attribute LifeStyle {spend<<saving,spend<saving,spend>saving,spend>>saving}
+@attribute Vacation real
+@attribute eCredit real
+@attribute salary real
+@attribute property real
+@attribute label {C1,C2,C3,C4,C5}
+
+@data
+engineer,spend<<saving,28,42,20.55,3.0668,C1
