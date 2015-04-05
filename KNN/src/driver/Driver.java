@@ -19,6 +19,9 @@ public class Driver {
 		String trainDataFile2 = "trainProdIntro.real.arff";
 		String testDataFile2 = "testProdIntro.real.arff";
 		
+		String trainDataFile3 = "trainProdIntro.binary.arff";
+		String testDataFile3 = "testProdIntro.binary.arff";
+		
 		// set weights
 		double[] weights1 = new double[] {0.17, 0.17, 0.17, 0.17, 0.17, 0.17};
 		double[] weights2 = new double[] {0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1};
@@ -111,8 +114,38 @@ public class Driver {
 			String result = KnnOutputProcess.getResult(attributesAndResult, oldE, kvote);
 			System.out.println(i + " " + result);
 		}
-		System.out.println("============ Part A end ==============");
+		System.out.println("============ Part A end ==============\n");
+				
+		System.out.println("============ Part B (binary) Start ==============");
+		// process input files, put input data into 2d arraylists
+		kpp = new KnnPreProcess(trainDataFile3, testDataFile3);
+		trainData = kpp.getTrainData();
+		testData = kpp.getTestData();
+		attributesAndResult = kpp.getAttributesAndResult();
 		
+		// keep original testData for future output use
+		originalTestData = new ArrayList<ArrayList<Double>>();
+		for (int i = 0; i < testData.size(); i++) {
+			originalTestData.add(new ArrayList<Double>(testData.get(i)));
+		}
+
+		// scale numeric attributes
+		sd = new ScaleData(attributesAndResult, trainData);
+		trainData = sd.scaleData(trainData);
+		testData = sd.scaleData(testData);
+		
+		// calculate knn
+		knn = new KNN();
+		for (int i = 0; i < testData.size(); i++) {
+			ArrayList<Double> e = testData.get(i);
+			double kvote = knn.classify(trainData, e, k, attributesAndResult, matrixes2, weights2);			
+			// output result
+			ArrayList<Double> oldE = originalTestData.get(i);
+			String result = KnnOutputProcess.getResult(attributesAndResult, oldE, kvote);
+			System.out.println(i + " " + result);
+		}	
+		System.out.println("============ Part B (binary) End ==============\n");
+			
 		System.out.println("============ Part B (real) Start ==============");
 		// process input files, put input data into 2d arraylists
 		kpp = new KnnPreProcess(trainDataFile2, testDataFile2);
