@@ -1,3 +1,10 @@
+/*********************************
+ * Author: Xue (Charlotte) Lin
+ * Date: 2015/04/01
+ * 
+ * This class defines TreeNode type of the decision tree,
+ * including two types node, root and leaf.
+ *********************************/
 package TreeDefination;
 
 import java.util.HashMap;
@@ -43,17 +50,21 @@ public class TreeNode {
 		return targetLabel;
 	}
 	
+	public void setTargetLabel(String targetLabel) {
+		this.targetLabel = targetLabel;
+	}
+	
 	public String getType() {
 		return type;
 	}
 	
-	// toString
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	@Override
 	public String toString() {
 		if (type.equals("root")) return "Root attribute: " + attribute.getName() + "; Children: " + children;
 		else return "Leaf label: " + targetLabel;
-	}
-	
-	public static void main(String[] args) {
-		
 	}
 }

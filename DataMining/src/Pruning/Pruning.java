@@ -1,3 +1,7 @@
+/*********************************
+ * Author: Xiaodong Zhou
+ * Date: 2015/04/05
+ *********************************/
 package Pruning;
 
 import java.util.ArrayList;

@@ -1,3 +1,7 @@
+/*********************************
+ * Author: Xiaodong Zhou
+ * Date: 2015/04/05
+ *********************************/
 package CV;
 
 import java.io.IOException;
@@ -115,6 +119,9 @@ public class CrossValidation {
 			int correct = 0;
 			ArrayList<Instance> res = getResult();
 			for (Instance item : res) {
+				System.out.println(item);		
+			}
+			for (Instance item : res) {
 				
 				String testLabel = item.getAttributeValuePairs().get("TestLabel");
 				String label = item.getAttributeValuePairs().get("Label");
@@ -125,15 +132,5 @@ public class CrossValidation {
 			scores.add(correct * 1.0 / res.size());
 		}
 		return scores;
-	}
-	
-	public static void main(String[] args) throws IOException {
-		CrossValidation cv = new CrossValidation("trainProdIntro.binary.arff");
-		ArrayList<Double> final_score = cv.validate();
-		double r = 0;
-		for(int i = 0; i < final_score.size(); i++) {
-			r += final_score.get(i);
-		}
-		System.out.println(r / 10);
 	}
 }

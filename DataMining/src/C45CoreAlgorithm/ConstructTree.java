@@ -1,8 +1,7 @@
-/*
- * Author: Charlotte Lin
+/*********************************
+ * Author: Xue (Charlotte) Lin
  * Date: 2015/04/01
- * 
- */
+ *********************************/
 package C45CoreAlgorithm;
 
 import java.io.IOException;
@@ -27,22 +26,38 @@ public class ConstructTree {
 		target = input.getTargetAttribute();
 	}
 	
-	public ConstructTree(ArrayList<Instance> instances, ArrayList<Attribute> attributes, Attribute target) {
+	public ConstructTree(ArrayList<Instance> instances, ArrayList<Attribute> attributes,
+			Attribute target) {
 		this.instances = instances;
 		this.attributes = attributes;
 		this.target = target;
 	}
 	
+	/**
+	 * Construct tree
+	 * @return TreeNode
+	 * @throws IOException
+	 */
 	public TreeNode construct() throws IOException {
 		return constructTree(target, attributes, instances);
 	}
 	
+	/**
+	 * Construct tree recursively. First make the root node, then construct its subtrees 
+	 * recursively, and finally connect root with subtrees.
+	 * @param target
+	 * @param attributes
+	 * @param instances
+	 * @return TreeNode
+	 * @throws IOException
+	 */
 	private TreeNode constructTree(Attribute target, ArrayList<Attribute> attributes, 
 			ArrayList<Instance> instances) throws IOException {
 		
-		// Stop when (1) entropy is zero
-		// (2) no attribute left
-		//System.out.println(Entropy.calculate(target, instances) == 0);
+		/*
+		 *  Stop when (1) entropy is zero
+		 *  (2) no attribute left
+		 */
 		if (Entropy.calculate(target, instances) == 0 || attributes.size() == 0) {
 			String leafLabel = "";
 			if (Entropy.calculate(target, instances) == 0) {
@@ -58,8 +73,6 @@ public class ConstructTree {
 		ChooseAttribute choose = new ChooseAttribute(target, attributes, instances);
 		Attribute rootAttr = choose.getChosen();
 		
-		//System.out.println(choose);
-
 		// Remove the chosen attribute from attribute set
 		attributes.remove(rootAttr);
 		
@@ -79,12 +92,20 @@ public class ConstructTree {
 				root.addChild(valueName, child);
 			}			
 		}		
-		// Add???!!!
+		
+		// Remember to add it again!
 		attributes.add(rootAttr);
 		
 		return root;
 	}
 	
+	/**
+	 * Get the majority target class label from instances
+	 * @param target
+	 * @param instances
+	 * @return String
+	 * @throws IOException
+	 */
 	public String getMajorityLabel(Attribute target, ArrayList<Instance> instances) throws IOException {
 		ArrayList<String> valuesOfTarget = target.getValues();
 		String targetName = target.getName();
@@ -110,12 +131,5 @@ public class ConstructTree {
 			}
 		}
 		return maxLabel;
-	}
-	
-	// Unit test
-	public static void main(String[] args) throws IOException {
-		ConstructTree test = new ConstructTree("rain.txt");
-		TreeNode root = test.construct();
-		System.out.println(root);
 	}
 }

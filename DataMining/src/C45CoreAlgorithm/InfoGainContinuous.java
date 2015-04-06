@@ -1,8 +1,7 @@
-/*
- * Author: Charlotte Lin
+/*********************************
+ * Author: Xue (Charlotte) Lin
  * Date: 2015/04/01
- * 
- */
+ *********************************/
 package C45CoreAlgorithm;
 
 import java.io.IOException;
@@ -16,19 +15,23 @@ import ProcessInput.ProcessInputData;
 
 public class InfoGainContinuous {
 	
-	// Field attribute: the attribute that we are calculating
-	// Field threshold: the threshold of the continuous attribute values
-	// Field infoGain: the infoGain of current attribute
-	// Field subset: the value subset of current attribute
 	private Attribute attribute;
 	private double threshold;
 	private double infoGain = -1;
 	private HashMap<String, ArrayList<Instance>> subset;
 	
+	/**
+	 * Constructor: initialize fields. This class is for calculating the information gain
+	 * of continuous attribute. 
+	 * Use one cut to binary method. 
+	 * @param attribute
+	 * @param target
+	 * @param instances
+	 * @throws IOException
+	 */
 	public InfoGainContinuous(Attribute attribute, Attribute target, 
 			ArrayList<Instance> instances) throws IOException {
 		
-		// Initialize attribute
 		this.attribute = attribute;
 		
 		// Initialize threshold and infoGain
@@ -51,10 +54,11 @@ public class InfoGainContinuous {
 		};
 		Collections.sort(instances, comparator);
 		
-				
-		// (3) Get each position that target value change,
-		// 	   then calculate information gain of each position
-		//     find the maximum position value to be the threshold
+		/*
+		 (3) Get each position that target value change,
+			then calculate information gain of each position
+		    find the maximum position value to be the threshold 		
+		 */		 
 		int thresholdPos = 0;
 		for (int i = 0; i < instances.size() - 1; i++) {
 			HashMap<String, String> instancePair = instances.get(i).getAttributeValuePairs();
@@ -62,17 +66,15 @@ public class InfoGainContinuous {
 			HashMap<String, String> instancePair2 = instances.get(i + 1).getAttributeValuePairs();
 			String instanceValue2 = instancePair2.get(attributeName);
 					
-			// not sure accuracy
 			if (!instanceValue.equals(instanceValue2)) {
 				double currInfoGain = calculateConti(attribute, target, instances, i);
-				//System.out.println(currInfoGain);
-				//System.out.println(infoGain);
 				if (currInfoGain - infoGain > 0) {
 					infoGain = currInfoGain;
 					thresholdPos = i;
 				}
 			}
 		}	
+		
 		// (4) Calculate threshold
 		HashMap<String, String> a = instances.get(thresholdPos).getAttributeValuePairs();
 		String aValue = a.get(attributeName);
@@ -131,17 +133,4 @@ public class InfoGainContinuous {
 		return "Attribute: " + attribute.getName() + "\n" + "Threshold: " + threshold + "\n" 
 				+ "InfoGain: " + infoGain + "\n" + "Subset: " + subset;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		ProcessInputData test = new ProcessInputData("trainProdSelection.txt");
-		ArrayList<Attribute> attributes = test.getAttributeSet();
-		ArrayList<Instance> instances = test.getInstanceSet();
-		Attribute target = test.getTargetAttribute();
-		for (Attribute item : attributes) {
-			System.out.println(item);
-		}				
-		InfoGainContinuous test2 = new InfoGainContinuous(attributes.get(4), target, instances);
-		System.out.println(test2);
-	}
-	
 }
