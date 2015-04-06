@@ -1,14 +1,8 @@
-/*********************************
- * Author: Xiaodong Zhou
- * Date: 2015/04/05
- *********************************/
 package Pruning;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import CV.CrossValidationWithPruning;
 import DataDefination.Instance;
 import TreeDefination.TreeNode;
 
@@ -37,12 +31,22 @@ public class Pruning {
 			ArrayList<Instance> curInstances = new ArrayList<Instance>();
 			for(int i = 0; i < testInstances.size(); i++) {
 				Instance cur = testInstances.get(i);
-				System.out.println(child);
-				//System.out.println(child.getBranchValue());
-				System.out.println(r.getAttribute().getName());		
-				System.out.println(cur.getAttributeValuePairs().get(r.getAttribute().getName()));
-				if(child.getBranchValue().equals(cur.getAttributeValuePairs().get(r.getAttribute().getName()))) {
-					curInstances.add(cur);
+//				if(child.getBranchValue().equals(cur.getAttributeValuePairs().get(r.getAttribute().getName()))) {
+//					curInstances.add(cur);
+//				}
+				String attributeType = r.getAttribute().getType();
+				String attributeName = r.getAttribute().getName();
+				if(attributeType.equals("continuous")) {
+					double threshold = Double.parseDouble(k.substring(4));
+					double testValue = Double.parseDouble(cur.getAttributeValuePairs().get(attributeName));
+					String partition = k.substring(0, 4);
+					if((partition.equals("less") && testValue < threshold) || (partition.equals("more") && testValue >= threshold)) {
+						curInstances.add(cur);
+					}
+				} else {
+					if(k.equals(cur.getAttributeValuePairs().get(attributeName))) {
+						curInstances.add(cur);
+					}
 				}
 			}
 			
@@ -99,16 +103,5 @@ public class Pruning {
 			r.setTargetLabel(targetLabel);
 			return r;
 		}
-	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		CrossValidationWithPruning cv = new CrossValidationWithPruning("trainProdSelection.arff");
-		ArrayList<Double> final_score = cv.validate();
-		double r = 0;
-		for(int i = 0; i < final_score.size(); i++) {
-			r += final_score.get(i);
-		}
-		System.out.println(r / 10);
 	}
 }
