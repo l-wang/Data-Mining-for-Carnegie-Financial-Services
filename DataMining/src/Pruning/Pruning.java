@@ -4,9 +4,11 @@
  *********************************/
 package Pruning;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import CV.CrossValidationWithPruning;
 import DataDefination.Instance;
 import TreeDefination.TreeNode;
 
@@ -36,7 +38,8 @@ public class Pruning {
 			for(int i = 0; i < testInstances.size(); i++) {
 				Instance cur = testInstances.get(i);
 				System.out.println(child);
-				System.out.println(child.getBranchValue());
+				//System.out.println(child.getBranchValue());
+				System.out.println(r.getAttribute().getName());		
 				System.out.println(cur.getAttributeValuePairs().get(r.getAttribute().getName()));
 				if(child.getBranchValue().equals(cur.getAttributeValuePairs().get(r.getAttribute().getName()))) {
 					curInstances.add(cur);
@@ -96,5 +99,16 @@ public class Pruning {
 			r.setTargetLabel(targetLabel);
 			return r;
 		}
+	}
+	
+	
+	public static void main(String[] args) throws IOException {
+		CrossValidationWithPruning cv = new CrossValidationWithPruning("trainProdSelection.arff");
+		ArrayList<Double> final_score = cv.validate();
+		double r = 0;
+		for(int i = 0; i < final_score.size(); i++) {
+			r += final_score.get(i);
+		}
+		System.out.println(r / 10);
 	}
 }

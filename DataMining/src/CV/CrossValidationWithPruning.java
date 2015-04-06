@@ -102,8 +102,8 @@ public class CrossValidationWithPruning {
 		return mine(testInstances, result);
 	}
 	
-	public ArrayList<Double> validate() throws IOException {
-		shuffle(10);
+	public ArrayList<Double> validate(int crossValidationN) throws IOException {
+		shuffle(crossValidationN);
 		scores = new ArrayList<Double>();
 		for(int i = 0; i < testBundles.size(); i++) {
 			trainInstances = new ArrayList<Instance>();
