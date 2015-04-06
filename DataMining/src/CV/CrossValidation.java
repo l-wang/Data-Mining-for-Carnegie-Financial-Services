@@ -25,7 +25,7 @@ public class CrossValidation {
 	private ArrayList<Instance> result;
 	private ArrayList<Instance> totalInstances;
 	private ArrayList<Double> scores;
-	Random rand = new Random();
+	Random rand;
 	
 	public CrossValidation(String trainData) throws IOException {
 		result = new ArrayList<Instance>();
@@ -35,6 +35,7 @@ public class CrossValidation {
 		target = input.getTargetAttribute();
 		this.testBundles = new ArrayList<ArrayList<Instance>>();
 		this.totalInstances = input.getInstanceSet();
+		rand = new Random(totalInstances.size());
 	}
 	
 	public void shuffle(int k) {
@@ -46,6 +47,7 @@ public class CrossValidation {
 			for(int j = 0; j < average; j++) {
 				int size = totalInstances.size();
 				int curIndex = rand.nextInt(size);
+				System.out.println(curIndex);
 				curBundle.add(totalInstances.get(curIndex));
 				totalInstances.remove(curIndex);
 			}
@@ -121,10 +123,9 @@ public class CrossValidation {
 			for (Instance item : res) {
 				System.out.println(item);		
 			}
-			for (Instance item : res) {
-				
-				String testLabel = item.getAttributeValuePairs().get("TestLabel");
-				String label = item.getAttributeValuePairs().get("Label");
+			for (Instance item : res) {				
+				String testLabel = item.getAttributeValuePairs().get("Test" + target.getName());
+				String label = item.getAttributeValuePairs().get(target.getName());
 				if(testLabel.equals(label)) {
 					correct++;
 				}

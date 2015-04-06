@@ -13,7 +13,6 @@ import DataDefination.Attribute;
 public class TreeNode {
 	private String type;
 	private Attribute attribute;
-	private String branchValue;
 	private HashMap<String, TreeNode> children;
 	private String targetLabel;
 	
@@ -29,14 +28,6 @@ public class TreeNode {
 	}
 	public Attribute getAttribute() {
 		return attribute;
-	}
-	
-	public String getBranchValue() {
-		return branchValue;
-	}
-	
-	public void setBranchValue(String value) {
-		branchValue = value;
 	}
 	
 	public void addChild(String valueName, TreeNode child) {

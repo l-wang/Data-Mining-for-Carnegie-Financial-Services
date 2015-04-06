@@ -8,10 +8,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import CV.CrossValidation;
+import CV.CrossValidationWithPruning;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
-		CrossValidation cv = new CrossValidation("trainProdIntro.binary.arff");
+		CrossValidationWithPruning cv = new CrossValidationWithPruning("trainProdSelection.arff");
 		ArrayList<Double> final_score = cv.validate();
 		double r = 0;
 		for(int i = 0; i < final_score.size(); i++) {

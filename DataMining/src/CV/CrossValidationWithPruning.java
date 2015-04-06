@@ -27,7 +27,7 @@ public class CrossValidationWithPruning {
 	private ArrayList<Instance> result;
 	private ArrayList<Instance> totalInstances;
 	private ArrayList<Double> scores;
-	Random rand = new Random();
+	Random rand;
 	
 	public CrossValidationWithPruning(String trainData) throws IOException {
 		result = new ArrayList<Instance>();
@@ -37,6 +37,8 @@ public class CrossValidationWithPruning {
 		target = input.getTargetAttribute();
 		this.testBundles = new ArrayList<ArrayList<Instance>>();
 		this.totalInstances = input.getInstanceSet();
+		rand = new Random(totalInstances.size());
+		pruningInstances = new ArrayList<Instance>();
 	}
 	
 	public void shuffle(int k) {
@@ -123,6 +125,9 @@ public class CrossValidationWithPruning {
 				trainInstances.add(allTrainInstances.get(index));
 			}
 			for(; index < allTrainInstances.size(); index++) {
+				System.out.println(index);
+				System.out.println(allTrainInstances.get(index));
+				System.out.println(pruningInstances);
 				pruningInstances.add(allTrainInstances.get(index));
 			}
 			ConstructTree tree = new ConstructTree(trainInstances, attributes, target);
@@ -135,10 +140,9 @@ public class CrossValidationWithPruning {
 			this.root = newRoot;
 			int correct = 0;
 			ArrayList<Instance> res = getResult(this.testInstances, this.result);
-			for (Instance item : res) {
-				
-				String testLabel = item.getAttributeValuePairs().get("TestLabel");
-				String label = item.getAttributeValuePairs().get("Label");
+			for (Instance item : res) {				
+				String testLabel = item.getAttributeValuePairs().get("Test" + target.getName());
+				String label = item.getAttributeValuePairs().get(target.getName());
 				if(testLabel.equals(label)) {
 					correct++;
 				}

@@ -35,6 +35,9 @@ public class Pruning {
 			ArrayList<Instance> curInstances = new ArrayList<Instance>();
 			for(int i = 0; i < testInstances.size(); i++) {
 				Instance cur = testInstances.get(i);
+				System.out.println(child);
+				System.out.println(child.getBranchValue());
+				System.out.println(cur.getAttributeValuePairs().get(r.getAttribute().getName()));
 				if(child.getBranchValue().equals(cur.getAttributeValuePairs().get(r.getAttribute().getName()))) {
 					curInstances.add(cur);
 				}
