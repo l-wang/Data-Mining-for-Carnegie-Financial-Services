@@ -31,39 +31,30 @@ public class KNN {
 		return kvote;
 	}
 	
-	private double predictSymbolicLabel(PriorityQueue<KNNNode> queue) {
-		// count number of labels in KNN
-		HashMap<Double, Integer> map = new HashMap<Double, Integer>();
+	private double predictSymbolicLabel(PriorityQueue<KNNNode> queue) {	
+		// calculate similarity score of each class
+		HashMap<Double, Double> map = new HashMap<Double, Double>();
 		for (KNNNode node: queue) {
 			double label = node.getLabel();
+			double simScore = node.getSimScore();
 			if (map.containsKey(label)) {
-				map.put(label, map.get(label) + 1);
+				map.put(label, map.get(label) + simScore);
 			} else {
-				map.put(label, 1);
+				map.put(label, simScore);
 			}
-		}
-
-		// find max count
-		int maxCount = 0;
-		for (Double label: map.keySet()) {
-			int count = map.get(label);
-			if (count > maxCount) {
-				maxCount = count;
-			}
-		}
-		
-		// collects max count(s)
-		ArrayList<Double> maxLabels = new ArrayList<Double>();
-		for (Double label: map.keySet()) {
-			int count = map.get(label);
-			if (count == maxCount) {
-				maxLabels.add(label);
-			}
-		}
+		}	
 		
 		// assign class label
-		Collections.sort(maxLabels);
-		return maxLabels.get(0);
+		double maxScore = 0;
+		double maxLabel = -1;
+		for (Double label: map.keySet()) {
+			if (map.get(label) >= maxScore) {
+				maxScore = map.get(label);
+				maxLabel = label;
+			}
+		}	
+		
+		return maxLabel;
 	}
 	
 	private double predictNumericLabel(PriorityQueue<KNNNode> queue) {

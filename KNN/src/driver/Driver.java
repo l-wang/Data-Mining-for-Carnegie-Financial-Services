@@ -158,7 +158,7 @@ public class Driver {
 		for (int i = 0; i < testData.size(); i++) {
 			originalTestData.add(new ArrayList<Double>(testData.get(i)));
 		}
-
+		
 		// scale numeric attributes
 		sd = new ScaleData(attributesAndResult, trainData);
 		trainData = sd.scaleData(trainData);
