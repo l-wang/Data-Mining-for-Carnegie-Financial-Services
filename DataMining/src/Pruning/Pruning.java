@@ -1,9 +1,14 @@
 package Pruning;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import CV.CrossValidation;
+import CV.CrossValidationWithPruning;
 import DataDefination.Instance;
+import ProcessInput.ProcessInputData;
+import ProcessOutput.PrintTree;
 import TreeDefination.TreeNode;
 
 public class Pruning {
@@ -67,7 +72,8 @@ public class Pruning {
 		
 		HashMap<String, Integer> result = new HashMap<String, Integer>();
 		for(int i = 0; i < testInstances.size(); i++) {
-			String label = testInstances.get(i).getAttributeValuePairs().get("Label");
+			String label = testInstances.get(i).getAttributeValuePairs().get(ProcessInputData.
+					targetAttribute.getName());
 			if(result.containsKey(label)) {
 				result.put(label, result.get(label) + 1);
 			} else {
@@ -79,6 +85,7 @@ public class Pruning {
 		String targetLabel = "";
 		for(String k : result.keySet()) {
 			max = Math.max(max, result.get(k));
+			System.out.println("***********" + k);
 			targetLabel = k;
 		}
 		
@@ -89,7 +96,8 @@ public class Pruning {
 				Instance curOriginalInstance = originalInstances.get(j);
 				if(index == curOriginalInstance.getInstanceIndex()) {
 					HashMap<String, String> attributes = curOriginalInstance.getAttributeValuePairs();
-					if(attributes.get("Label").equals(attributes.get("TestLabel"))) {
+					if(attributes.get(ProcessInputData.targetAttribute.getName()).
+							equals(attributes.get("Test" + ProcessInputData.targetAttribute.getName()))) {
 						preMax++;
 					}
 				}
@@ -101,7 +109,9 @@ public class Pruning {
 			r.setType("leaf");
 			r.getChildren().clear();
 			r.setTargetLabel(targetLabel);
+			System.out.println("Pruning Leaf Node: " + targetLabel);
 			return r;
 		}
 	}
+
 }

@@ -15,7 +15,7 @@ import DataDefination.Instance;
 public class ProcessInputData {
 	ArrayList<Attribute> attributeSet;
 	ArrayList<Instance> instanceSet;
-	Attribute targetAttribute;
+	public static Attribute targetAttribute;
 	
 	/**
 	 * Constructor to initialize fields.

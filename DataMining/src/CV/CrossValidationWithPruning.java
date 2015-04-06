@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import ProcessInput.ProcessInputData;
+import ProcessOutput.PrintTree;
 import Pruning.Pruning;
 import TreeDefination.TreeNode;
 import C45CoreAlgorithm.ConstructTree;
@@ -94,6 +95,7 @@ public class CrossValidationWithPruning {
 			}
 			HashMap<String, String> pairs = resInstance.getAttributeValuePairs();
 			pairs.put("Test" + target.getName(), node.getTargetLabel());
+			
 		}
 		return result;
 	}
@@ -125,9 +127,6 @@ public class CrossValidationWithPruning {
 				trainInstances.add(allTrainInstances.get(index));
 			}
 			for(; index < allTrainInstances.size(); index++) {
-				System.out.println(index);
-				System.out.println(allTrainInstances.get(index));
-				System.out.println(pruningInstances);
 				pruningInstances.add(allTrainInstances.get(index));
 			}
 			ConstructTree tree = new ConstructTree(trainInstances, attributes, target);
@@ -143,12 +142,27 @@ public class CrossValidationWithPruning {
 			for (Instance item : res) {				
 				String testLabel = item.getAttributeValuePairs().get("Test" + target.getName());
 				String label = item.getAttributeValuePairs().get(target.getName());
+				
 				if(testLabel.equals(label)) {
 					correct++;
 				}
+				
 			}
 			scores.add(correct * 1.0 / res.size());
 		}
 		return scores;
+	}
+	public static void main(String[] args) throws IOException {
+		CrossValidationWithPruning cvP = new CrossValidationWithPruning("trainProdSelection.arff");
+	
+		ArrayList<Double> final_score_P = cvP.validate(10);
+		
+		PrintTree p= new PrintTree();
+		System.out.println(p.printDFS(cvP.root));
+		double rP = 0;
+		for(int i = 0; i < final_score_P.size(); i++) {
+			rP += final_score_P.get(i);
+		}
+		System.out.println("Cross Validation after Pruning: " + rP / 10);		
 	}
 }

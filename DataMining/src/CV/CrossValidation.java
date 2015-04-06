@@ -134,4 +134,15 @@ public class CrossValidation {
 		}
 		return scores;
 	}
+	public static void main(String[] args) throws IOException {
+		CrossValidation cvP = new CrossValidation("trainProdSelection.arff");
+	
+		ArrayList<Double> final_score_P = cvP.validate(10);
+		
+		double rP = 0;
+		for(int i = 0; i < final_score_P.size(); i++) {
+			rP += final_score_P.get(i);
+		}
+		System.out.println("Cross Validation after Pruning: " + rP / 10);		
+	}
 }
