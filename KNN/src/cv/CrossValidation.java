@@ -229,12 +229,12 @@ public class CrossValidation {
 		weights2 = new double[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 };
 		weights = new double[weights2.length];
 		end = false;
-		while (max_correct < 0.95 && end == false) {
+		while (max_correct < 1 && end == false) {
 			end = true;
-			Collections.shuffle(trainData, new Random((long) 99999));
+			Collections.shuffle(trainData, new Random((long) 10000));
 			for (int w = 0; w < weights2.length; w++) {
 				for (int m = 0; m < multiply.length; m++) {
-					System.arraycopy(weights1, 0, weights, 0, weights1.length);
+					System.arraycopy(weights2, 0, weights, 0, weights2.length);
 					weights[w] *= multiply[m];
 					double correct = 0.0;
 					for (int i = 0; i < k_fold; i++) {
