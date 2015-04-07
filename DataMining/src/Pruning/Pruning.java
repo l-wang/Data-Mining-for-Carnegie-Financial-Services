@@ -1,14 +1,14 @@
+/*********************************
+ * Author: Xiaodong Zhou
+ * Date: 2015/04/05
+ *********************************/
 package Pruning;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import CV.CrossValidation;
-import CV.CrossValidationWithPruning;
 import DataDefination.Instance;
 import ProcessInput.ProcessInputData;
-import ProcessOutput.PrintTree;
 import TreeDefination.TreeNode;
 
 public class Pruning {
@@ -16,12 +16,24 @@ public class Pruning {
 	private ArrayList<Instance> testInstances;
 	private ArrayList<Instance> originalInstances;
 	
+	/**
+	 * Constructor
+	 * @param root
+	 * @param testInstances
+	 * @param originalInstances
+	 */
 	public Pruning(TreeNode root, ArrayList<Instance> testInstances, ArrayList<Instance> originalInstances) {
 		this.root = root;
 		this.testInstances = testInstances;
 		this.originalInstances = originalInstances;
 	}
 	
+	/**
+	 * Run pruning
+	 * @param r
+	 * @param testInstances
+	 * @return the root of the tree after pruning 
+	 */
 	public TreeNode run(TreeNode r, ArrayList<Instance> testInstances) {
 		if(r == null || testInstances.size() == 0) {
 			return null;
@@ -36,9 +48,6 @@ public class Pruning {
 			ArrayList<Instance> curInstances = new ArrayList<Instance>();
 			for(int i = 0; i < testInstances.size(); i++) {
 				Instance cur = testInstances.get(i);
-//				if(child.getBranchValue().equals(cur.getAttributeValuePairs().get(r.getAttribute().getName()))) {
-//					curInstances.add(cur);
-//				}
 				String attributeType = r.getAttribute().getType();
 				String attributeName = r.getAttribute().getName();
 				if(attributeType.equals("continuous")) {
@@ -85,7 +94,6 @@ public class Pruning {
 		String targetLabel = "";
 		for(String k : result.keySet()) {
 			max = Math.max(max, result.get(k));
-			System.out.println("***********" + k);
 			targetLabel = k;
 		}
 		
@@ -109,9 +117,7 @@ public class Pruning {
 			r.setType("leaf");
 			r.getChildren().clear();
 			r.setTargetLabel(targetLabel);
-			System.out.println("Pruning Leaf Node: " + targetLabel);
 			return r;
 		}
 	}
-
 }

@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 import ProcessInput.ProcessInputData;
-import ProcessOutput.PrintTree;
 import Pruning.Pruning;
 import TreeDefination.TreeNode;
 import C45CoreAlgorithm.ConstructTree;
@@ -24,6 +23,7 @@ public class CrossValidationWithPruning {
 	private ArrayList<Instance> pruningInstances;
 	private ArrayList<ArrayList<Instance>> testBundles;
 	private Attribute target;
+	private TreeNode rootBefore;
 	private TreeNode root;
 	private ArrayList<Instance> result;
 	private ArrayList<Instance> totalInstances;
@@ -42,6 +42,10 @@ public class CrossValidationWithPruning {
 		pruningInstances = new ArrayList<Instance>();
 	}
 	
+	/**
+	 * Shuffle data and put them into k bundles, preparing for cross validation on k folds.
+	 * @param k
+	 */
 	public void shuffle(int k) {
 		int total_size = totalInstances.size();
 		int average = total_size / k;
@@ -65,7 +69,14 @@ public class CrossValidationWithPruning {
 		testBundles.add(lastBundle);
 	}
 	
-	private ArrayList<Instance> mine(ArrayList<Instance> testInstances, ArrayList<Instance> result) {
+	/**
+	 * Mine input data (e.g. put target attribute label on input data), which uses tree
+	 * after pruning.
+	 * @param testInstances
+	 * @param result
+	 * @return ArrayList<Instance>
+	 */
+	public ArrayList<Instance> mine(ArrayList<Instance> testInstances, ArrayList<Instance> result) {
 		for (int i = 0; i < testInstances.size(); i++) {
 			TreeNode node = root;
 			Instance currInstance = testInstances.get(i);
@@ -104,6 +115,12 @@ public class CrossValidationWithPruning {
 		return mine(testInstances, result);
 	}
 	
+	/**
+	 * Do cross validation on input data, which uses tree after pruning.
+	 * @param crossValidationN
+	 * @return ArrayList<Double>
+	 * @throws IOException
+	 */
 	public ArrayList<Double> validate(int crossValidationN) throws IOException {
 		shuffle(crossValidationN);
 		scores = new ArrayList<Double>();
@@ -131,6 +148,7 @@ public class CrossValidationWithPruning {
 			}
 			ConstructTree tree = new ConstructTree(trainInstances, attributes, target);
 			root = tree.construct();
+			rootBefore = root;
 			
 			ArrayList<Instance> originalInstances = pruningInstances;
 			ArrayList<Instance> originalPruning = getResult(pruningInstances, pruningInstances);
@@ -152,17 +170,13 @@ public class CrossValidationWithPruning {
 		}
 		return scores;
 	}
-	public static void main(String[] args) throws IOException {
-		CrossValidationWithPruning cvP = new CrossValidationWithPruning("trainProdSelection.arff");
-	
-		ArrayList<Double> final_score_P = cvP.validate(10);
-		
-		PrintTree p= new PrintTree();
-		System.out.println(p.printDFS(cvP.root));
-		double rP = 0;
-		for(int i = 0; i < final_score_P.size(); i++) {
-			rP += final_score_P.get(i);
-		}
-		System.out.println("Cross Validation after Pruning: " + rP / 10);		
+	public TreeNode getRootBefore() {
+		return rootBefore;
+	}
+	public TreeNode getRoot() {
+		return root;
+	}
+	public ArrayList<Instance> getResult() {
+		return result;
 	}
 }

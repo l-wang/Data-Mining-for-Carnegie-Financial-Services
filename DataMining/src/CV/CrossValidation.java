@@ -27,6 +27,11 @@ public class CrossValidation {
 	private ArrayList<Double> scores;
 	Random rand;
 	
+	/**
+	 * Constructor
+	 * @param trainData
+	 * @throws IOException
+	 */
 	public CrossValidation(String trainData) throws IOException {
 		result = new ArrayList<Instance>();
 		
@@ -38,6 +43,10 @@ public class CrossValidation {
 		rand = new Random(totalInstances.size());
 	}
 	
+	/**
+	 * Shuffle data and put them into k bundles, preparing for cross validation on k folds.
+	 * @param k
+	 */
 	public void shuffle(int k) {
 		int total_size = totalInstances.size();
 		int average = total_size / k;
@@ -47,7 +56,6 @@ public class CrossValidation {
 			for(int j = 0; j < average; j++) {
 				int size = totalInstances.size();
 				int curIndex = rand.nextInt(size);
-				System.out.println(curIndex);
 				curBundle.add(totalInstances.get(curIndex));
 				totalInstances.remove(curIndex);
 			}
@@ -62,6 +70,9 @@ public class CrossValidation {
 		testBundles.add(lastBundle);
 	}
 	
+	/**
+	 * Mine input data (e.g. put target attribute label on input data).
+	 */
 	private void mine() {
 		for (int i = 0; i < testInstances.size(); i++) {
 			TreeNode node = root;
@@ -95,11 +106,21 @@ public class CrossValidation {
 		}
 	}
 	
+	/**
+	 * Get result of mined data.
+	 * @return the result of mined data.
+	 */
 	public ArrayList<Instance> getResult() {
 		mine();
 		return result;
 	}
 	
+	/**
+	 * Do cross validation on input data.
+	 * @param crossValidationN
+	 * @return the result of cross validation
+	 * @throws IOException
+	 */
 	public ArrayList<Double> validate(int crossValidationN) throws IOException {
 		shuffle(crossValidationN);
 		scores = new ArrayList<Double>();
@@ -120,9 +141,6 @@ public class CrossValidation {
 			
 			int correct = 0;
 			ArrayList<Instance> res = getResult();
-			for (Instance item : res) {
-				System.out.println(item);		
-			}
 			for (Instance item : res) {				
 				String testLabel = item.getAttributeValuePairs().get("Test" + target.getName());
 				String label = item.getAttributeValuePairs().get(target.getName());
@@ -134,15 +152,11 @@ public class CrossValidation {
 		}
 		return scores;
 	}
-	public static void main(String[] args) throws IOException {
-		CrossValidation cvP = new CrossValidation("trainProdSelection.arff");
-	
-		ArrayList<Double> final_score_P = cvP.validate(10);
-		
-		double rP = 0;
-		for(int i = 0; i < final_score_P.size(); i++) {
-			rP += final_score_P.get(i);
-		}
-		System.out.println("Cross Validation after Pruning: " + rP / 10);		
+	/**
+	 * 
+	 * @return tree root
+	 */
+	public TreeNode getRoot() {
+		return root;
 	}
 }

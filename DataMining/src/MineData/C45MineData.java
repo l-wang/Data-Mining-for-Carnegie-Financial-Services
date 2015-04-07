@@ -71,4 +71,7 @@ public class C45MineData {
 		mine();
 		return result;
 	}
+	public TreeNode getRoot() {
+		return root;
+	}
 }
