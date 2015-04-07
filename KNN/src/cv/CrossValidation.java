@@ -30,7 +30,7 @@ public class CrossValidation {
 		double[] weights2 = new double[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1,
 				0.1 };
 
-		double[] multiply = new double[] { 0.2, 0.8, 1.5, 2.0, 4.0 };
+		double[] multiply = new double[] { 0.0, 0.2, 0.8, 1.5, 2.0, 4.0 };
 
 		// set Similarity Matrix - part a
 		double[][] matrixA = new double[][] { { 1, 0, 0, 0, 0 },
@@ -78,7 +78,7 @@ public class CrossValidation {
 
 		// calculate knn
 		KNN knn = new KNN();
-		int k_fold = 30;
+		int k_fold = 10;
 		int count = trainData.size() / k_fold;
 		double max_correct = 0.0;
 		int max_m = 0, max_w = 0;
@@ -231,7 +231,7 @@ public class CrossValidation {
 		end = false;
 		while (max_correct < 0.95 && end == false) {
 			end = true;
-			Collections.shuffle(trainData, new Random((long) 10000));
+			Collections.shuffle(trainData, new Random((long) 99999));
 			for (int w = 0; w < weights2.length; w++) {
 				for (int m = 0; m < multiply.length; m++) {
 					System.arraycopy(weights1, 0, weights, 0, weights1.length);
